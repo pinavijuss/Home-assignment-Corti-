@@ -1,6 +1,14 @@
 import './App.css';
-import React from 'react';
-import Tree from './components/Tree/Tree';
+import styled from "styled-components";
+import React, { useState } from "react";
+import { AiOutlineFile, AiOutlineFolder, AiOutlineFilePdf } from 'react-icons/ai';
+import { BiImage } from "react-icons/bi";
+
+const FILE_ICONS = {
+  pdf: <AiOutlineFilePdf />,
+  jpeg: <BiImage />,
+};
+
 
 const treeData = [
   {
@@ -1630,11 +1638,105 @@ const treeData = [
   },
 ];
 
-export const App = function App() {
-  fetch('/api/v1/tree')
-    .then((response) => response.json())
-    .then((data) => console.log(data));
 
+const StyledTree = styled.div`
+  line-height: 1.5;
+`;
+
+const StyledFile = styled.div`
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 5px;
+  }
+`;
+
+const StyledFolder = styled.div`
+  padding-left: 20px;
+
+  .folder--label {
+    display: flex;
+    align-items: center;
+    span {
+      margin-left: 5px;
+    }
+  }
+`;
+
+const Collapsible = styled.div`
+  /* set the height depending on isOpen prop */
+  height: ${p => (p.isOpen ? 'auto' : '0')};
+  /* hide the excess content */
+  overflow: hidden;
+`;
+
+const File = ({ name }) => {
+  // get the extension
+  let ext = name.split('.')[1];
+
+  return (
+    <StyledFile>
+      {/* render the extension or fallback to generic file icon  */}
+      {FILE_ICONS[ext] || <AiOutlineFile />}
+      <span>{name}</span>
+    </StyledFile>
+  );
+};
+
+const Folder = ({ name, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = e => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <StyledFolder>
+      <div className="folder--label" onClick={handleToggle}>
+        <AiOutlineFolder />
+        <span>{name}</span>
+      </div>
+      <Collapsible isOpen={isOpen}>{children}</Collapsible>
+    </StyledFolder>
+  );
+};
+
+const TreeRecursive = ({ data }) => {
+  // loop through the data
+  return data.map(item => {
+    // if its a file render <File />
+    if (item.type === 'image') {
+      return <File name={item.name} />;
+    }
+
+    if (item.type === 'doc') {
+      return <File name={item.name} />;
+    }
+    // if its a folder render <Folder />
+    if (item.type === 'folder') {
+      return (
+        <Folder name={item.name}>
+          {/* Call the <TreeRecursive /> component with the current item.childrens */}
+          <TreeRecursive data={item.children} />
+        </Folder>
+      );
+    }
+  });
+};
+
+const Tree = ({ data, children }) => {
+  const isImperative = data && !children;
+
+  return <StyledTree>{isImperative ? <TreeRecursive data={data} /> : children}</StyledTree>;
+};
+
+fetch('/api/v1/tree')
+  .then((response) => response.json())
+  .then((data) => console.log(data));
+
+export const App = function App() {
   return (
     <div className="container">
       <div className="topBar">
