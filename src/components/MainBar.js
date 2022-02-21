@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const isFolder = data.type;
-console.log(isFolder)
-
 const MainBar = ({ isFileSelected, selectedFile, folderData }) => {
     return (
         <div className="mainBar">
@@ -21,7 +18,6 @@ const MainBar = ({ isFileSelected, selectedFile, folderData }) => {
                                     <div>{data.name}</div>
                                 </FileComponent>
                             ))}
-
                         </div>
                     </>
                 )}
@@ -45,4 +41,3 @@ const FileComponent = styled.div`
   font-size: 1rem;
   background-color: #fefefe;
 `;
-

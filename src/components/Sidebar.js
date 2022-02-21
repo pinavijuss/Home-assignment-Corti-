@@ -16,5 +16,3 @@ const Sidebar = ({ data, children, handleFileSelection, handleFolderSelection })
 };
 
 export default Sidebar;
-
-
