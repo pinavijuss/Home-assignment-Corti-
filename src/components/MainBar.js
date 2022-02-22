@@ -13,11 +13,13 @@ const MainBar = ({ isFileSelected, selectedFile, folderData }) => {
             ) : (
                     <>
                         <div className="folderPreview">
-                            {folderData.map((data) => (
-                                <FileComponent key={data.name}>
+                            {folderData.length > 0 ? folderData.map((data) => (
+                                <FileComponent key={data.id} className={`${data.type === 'folder' ? 'folder' : ""}`}>
                                     <div>{data.name}</div>
                                 </FileComponent>
-                            ))}
+                            ))
+                                :
+                                "Folder is empty"}
                         </div>
                     </>
                 )}
@@ -29,8 +31,8 @@ export default MainBar;
 
 const FileComponent = styled.div`
   margin: 0.5rem;
-  height: 8rem;
-  width: 8rem;
+  height: 7rem;
+  width: 7rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,6 +40,10 @@ const FileComponent = styled.div`
   border-radius: 1rem;
   border: 3px solid;
   padding: 0.5rem;
-  font-size: 1rem;
-  background-color: #fefefe;
+  font-size: 0.8rem;
+  background-color: #68b6d9;
+
+&.folder {
+    background-color: orange;
+}
 `;

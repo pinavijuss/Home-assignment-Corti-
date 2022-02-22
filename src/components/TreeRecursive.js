@@ -8,7 +8,14 @@ const TreeRecursive = ({
     handleFileSelection,
     handleFolderSelection,
 }) => {
-    return data.map((item) => {
+
+    const sortedData = data.sort(function (a, b) {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+        if (a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+        return 0;
+    })
+
+    return sortedData.map((item) => {
         if (item.type === 'image') {
             return (
                 <File
@@ -31,6 +38,7 @@ const TreeRecursive = ({
             );
         }
         if (item.type === 'folder') {
+
             return (
                 <Folder
                     key={item.name}

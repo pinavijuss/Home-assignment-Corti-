@@ -1,8 +1,9 @@
 import React from 'react';
-
 import Tree from './Tree';
 
-const Sidebar = ({ data, children, handleFileSelection, handleFolderSelection }) => {
+const SideBar = ({ data, children, handleFileSelection, handleFolderSelection }) => {
+
+
     return (
         <div className="sideBar">
             <Tree
@@ -15,4 +16,4 @@ const Sidebar = ({ data, children, handleFileSelection, handleFolderSelection })
     );
 };
 
-export default Sidebar;
+export default SideBar;

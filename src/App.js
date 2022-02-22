@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 
-import Sidebar from './components/Sidebar';
+import SideBar from './components/SideBar';
 import MainBar from './components/MainBar';
 
 export const App = function App() {
@@ -30,13 +30,12 @@ export const App = function App() {
     fetch('/api/v1/tree')
       .then((response) => response.json())
       .then((data) => setData(data.response));
-
   }, []);
 
   // if (data.children != '') {
   //   return data.sort((a, b) => a.name.localeCompare(b.name));
   // }
-  data.sort((a, b) => a.name.localeCompare(b.name));
+  // data.sort((a, b) => a.name.localeCompare(b.name));
   // data.sort((a, b) => a.children.name.localeCompare(b.children.name));
 
 
@@ -46,7 +45,7 @@ export const App = function App() {
         <span>Home Assignement</span>
       </div>
       <div className="centerContainer">
-        <Sidebar
+        <SideBar
           data={data}
           handleFileSelection={handleFileSelection}
           handleFolderSelection={handleFolderSelection}
